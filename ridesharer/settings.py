@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # 3rd party
     "rest_framework",
+    "rest_framework_gis",
     "rest_framework.authtoken",
     "corsheaders",
     "dj_rest_auth",
