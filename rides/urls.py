@@ -1,9 +1,10 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 
-from .views import RideList, RideDetail
+from .views import RideViewSet
 
 
-urlpatterns = [
-    path("<int:pk>", RideDetail.as_view(), name="ride_detail"),
-    path("", RideList.as_view(), name="ride_list"),
-]
+router = SimpleRouter()
+router.register("", RideViewSet, basename="rides")
+
+urlpatterns = router.urls

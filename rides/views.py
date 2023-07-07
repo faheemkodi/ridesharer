@@ -1,15 +1,9 @@
-from rest_framework import generics
+from rest_framework import viewsets
 
 from .models import Ride
 from .serializers import RideSerializer
 
 
-# Create your views here.
-class RideList(generics.ListCreateAPIView):
-    queryset = Ride.objects.all()
-    serializer_class = RideSerializer
-
-
-class RideDetail(generics.RetrieveUpdateDestroyAPIView):
+class RideViewSet(viewsets.ModelViewSet):
     queryset = Ride.objects.all()
     serializer_class = RideSerializer
