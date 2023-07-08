@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.test import TestCase
@@ -8,6 +9,7 @@ from django.contrib.gis.db.models.functions import Distance as DistanceFunction
 
 from .models import Ride, RideRequest
 from .serializers import RideSerializer, RideRequestSerializer
+from .tasks import update_ride_location
 
 
 class RideTests(TestCase):
@@ -127,7 +129,7 @@ class RideTests(TestCase):
             "driver": self.user.pk,
             "current_location": "POINT(76.267303 9.931233)",
             "pickup_location": "POINT(76.267303 9.931233)",
-            "dropoff_location": "POINT(76.267303 9.931233)",
+            "dropoff_location": "POINT(75.7804 11.2588)",
         }
         response = self.client.post("/api/v1/rides/", data=ride_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -468,11 +470,14 @@ class RideTests(TestCase):
         response = self.client.post("/api/v1/rides/nearby/", data=request_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_start_ride_tracking(self):
-        ...
+    def test_update_ride_location(self):
+        for _ in range(5):
+            initial_location = self.ride3.current_location
+            update_ride_location(self.ride3.pk)
+            self.ride3.refresh_from_db()
 
-    def test_stop_ride_tracking(self):
-        ...
+            # Check ride location has changed
+            self.assertNotEqual(self.ride3.current_location, initial_location)
 
 
 class RideRequestTests(TestCase):
