@@ -2,6 +2,8 @@
 
 > A basic ride-sharing API that allows users to find nearby rides that would take them to their desired location.
 
+> Interactive API documentation is available at http://127.0.0.1:8000/api/schema/swagger
+
 #### Features
 
 - Registered users who are traveling from A to B can create `rides` to invite others to share their ride. Users who creates the `ride` is the `driver`.
