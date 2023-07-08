@@ -71,6 +71,10 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+REST_AUTH = {
+    "SESSION_LOGIN": False,
+}
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "Ride Sharing API",
     "DESCRIPTION": "Basic API for a bike-ride sharing app",
@@ -179,3 +183,14 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BEAT_SCHEDULE = {
+    "update_ride_location_task": {
+        "task": "rides.tasks.update_ride_location",
+        "schedule": 180,
+        "args": (),
+    }
+}

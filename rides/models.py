@@ -16,10 +16,11 @@ class Ride(models.Model):
 
     rider = models.ForeignKey(
         get_user_model(),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="rides_riding",
         null=True,
         blank=True,
+        default=None,
     )
     driver = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="rides_driving"

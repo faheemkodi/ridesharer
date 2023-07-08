@@ -7,6 +7,6 @@ from .views import RideViewSet, RideRequestViewSet
 router = SimpleRouter()
 
 router.register("requests", RideRequestViewSet, basename="ride_requests")
-router.register("", RideViewSet, basename="rides")
+router.register("rides", RideViewSet, basename="rides")
 
 urlpatterns = router.urls
